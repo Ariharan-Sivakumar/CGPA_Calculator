@@ -177,13 +177,18 @@
             var cgpa = (numerator / denominator).toFixed(2);
             document.getElementById("result").innerHTML = "Your CGPA is: " + cgpa;
         
-            updateChart(Array.from(gpas).map(input => parseFloat(input.value)));
+            updateChart(Array.from(gpas).map(input => parseFloat(input.value)));    
         });
 
         function updateChart(data) {
+
+            if (window.myChart instanceof Chart) {
+                window.myChart.destroy();
+            }
+
             document.getElementById("canvas_div").style.display = "flex";
             var ctx = document.getElementById('chart').getContext('2d');
-            var chart = new Chart(ctx, {
+            window.myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['SEM 1', 'SEM 2', 'SEM 3', 'SEM 4', 'SEM 5', 'SEM 6', 'SEM 7', 'SEM 8'],
