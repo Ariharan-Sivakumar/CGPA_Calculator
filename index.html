@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            background-image: radial-gradient(circle at top right, #ff7e5f, #feb47b);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .gpas {
+            width: 70%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .gpas:focus {
+            border-color: #4CAF50;
+        }
+
+        .cre{
+            width: 10%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #submit:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+
+        #canvas_div{
+            display: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0px;
+            margin-left: 100px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 97%;
+            width: 500px;
+            background-color: #fff;
+        }
+
+        canvas {
+            display: none;
+            max-width: 400px;
+            max-height: 400px;
+        }
+
+        #h_gpa{
+            width: 70%;
+            padding: 185px;
+        }
+        #h_cre{
+            width: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <h1>CGPA Calculator</h1>
+        <div>
+            <label id="h_gpa">GPA</label>
+            <label id="h_cre">Credits</label><br>
+        </div>
+        
+        <label for="sem1">SEM 1</label>
+        <input type="number" id="sem1" value="0" class="gpas">
+        <input type="number" id="cre1" value="18" class="cre"><br>
+
+        <label for="sem2">SEM 2</label>
+        <input type="number" id="sem2" value="0" class="gpas">
+        <input type="number" id="cre2" value="22" class="cre"><br>
+
+        <label for="sem3">SEM 3</label>
+        <input type="number" id="sem3" value="0" class="gpas">
+        <input type="number" id="cre3" value="22" class="cre"><br>
+
+        <label for="sem4">SEM 4</label>
+        <input type="number" id="sem4" value="0" class="gpas">
+        <input type="number" id="cre4" value="22" class="cre"><br>
+
+        <label for="sem5">SEM 5</label>
+        <input type="number" id="sem5" value="0" class="gpas">
+        <input type="number" id="cre5" value="22" class="cre"><br>
+
+        <label for="sem6">SEM 6</label>
+        <input type="number" id="sem6" value="0" class="gpas">
+        <input type="number" id="cre6" value="22" class="cre"><br>
+
+        <label for="sem7">SEM 7</label>
+        <input type="number" id="sem7" value="0" class="gpas">
+        <input type="number" id="cre7" value="22" class="cre"><br>
+
+        <label for="sem8">SEM 8</label>
+        <input type="number" id="sem8" value="0" class="gpas">
+        <input type="number" id="cre8" value="11" class="cre"><br>
+
+        <button type="button" name="Submit" id="submit">Calculate CGPA</button>
+    
+    </form>
+
+    <div id="canvas_div">
+        <h1>GPA Visualizer</h1>
+        <canvas id="chart"></canvas>
+        <div id="result"></div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.getElementById("submit").addEventListener("click", function () {
+            var gpas = document.getElementsByClassName("gpas");
+            var credits = document.getElementsByClassName("cre");
+
+            var numerator = 0, denominator = 0;
+            for (var index = 0; index < 8; index++) {
+                if (gpas[index].value > 0) {
+                    numerator += gpas[index].value * credits[index].value;
+                    denominator += parseInt(credits[index].value);
+                }
+            }
+
+            var cgpa = (numerator / denominator).toFixed(2);
+            document.getElementById("result").innerHTML = "Your CGPA is: " + cgpa;
+        
+            updateChart(Array.from(gpas).map(input => parseFloat(input.value)));
+        });
+
+        function updateChart(data) {
+            document.getElementById("canvas_div").style.display = "flex";
+            var ctx = document.getElementById('chart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['SEM 1', 'SEM 2', 'SEM 3', 'SEM 4', 'SEM 5', 'SEM 6', 'SEM 7', 'SEM 8'],
+                    datasets: [{
+                        label: 'GPAs',
+                        data: data,
+                        backgroundColor: 'rgb(255,126,95,0.3)',
+                        borderColor: 'rgb(255, 126, 95)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min:5, max:10
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>
