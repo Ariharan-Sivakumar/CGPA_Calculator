@@ -75,7 +75,21 @@
         #result {
             margin-top: 20px;
             font-size: 24px;
-            color: #333;
+            width: 250px;
+            font-size: 100px;
+            font-style: italic;
+            font-weight: bolder;
+            margin: 0; padding: 0;
+            text-align: center;
+            background: -webkit-linear-gradient(#0202ff, #00bbc8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+        }
+
+        #cgpa_res{
+            margin-top: 10px;
+            border-bottom: 2px solid #333;
         }
 
 
@@ -107,6 +121,17 @@
         #h_cre{
             width: 10%;
         }
+
+        
+
+        @media screen and (max-width:480px){
+            body{
+                flex-direction: column;
+            }
+            #canvas_div{
+                margin: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -119,35 +144,35 @@
         </div>
         
         <label for="sem1">SEM 1</label>
-        <input type="number" id="sem1" value="0" class="gpas">
+        <input type="number" id="sem1" placeholder = "10.00" class="gpas">
         <input type="number" id="cre1" value="18" class="cre"><br>
 
         <label for="sem2">SEM 2</label>
-        <input type="number" id="sem2" value="0" class="gpas">
+        <input type="number" id="sem2" placeholder = "10.00" class="gpas">
         <input type="number" id="cre2" value="22" class="cre"><br>
 
         <label for="sem3">SEM 3</label>
-        <input type="number" id="sem3" value="0" class="gpas">
+        <input type="number" id="sem3" placeholder = "10.00" class="gpas">
         <input type="number" id="cre3" value="22" class="cre"><br>
 
         <label for="sem4">SEM 4</label>
-        <input type="number" id="sem4" value="0" class="gpas">
+        <input type="number" id="sem4" placeholder = "10.00" class="gpas">
         <input type="number" id="cre4" value="22" class="cre"><br>
 
         <label for="sem5">SEM 5</label>
-        <input type="number" id="sem5" value="0" class="gpas">
+        <input type="number" id="sem5" placeholder = "10.00" class="gpas">
         <input type="number" id="cre5" value="22" class="cre"><br>
 
         <label for="sem6">SEM 6</label>
-        <input type="number" id="sem6" value="0" class="gpas">
+        <input type="number" id="sem6" placeholder = "10.00" class="gpas">
         <input type="number" id="cre6" value="22" class="cre"><br>
 
         <label for="sem7">SEM 7</label>
-        <input type="number" id="sem7" value="0" class="gpas">
+        <input type="number" id="sem7" placeholder = "10.00" class="gpas">
         <input type="number" id="cre7" value="22" class="cre"><br>
 
         <label for="sem8">SEM 8</label>
-        <input type="number" id="sem8" value="0" class="gpas">
+        <input type="number" id="sem8" placeholder = "10.00" class="gpas">
         <input type="number" id="cre8" value="11" class="cre"><br>
 
         <button type="button" name="Submit" id="submit">Calculate CGPA</button>
@@ -157,6 +182,7 @@
     <div id="canvas_div">
         <h1>GPA Visualizer</h1>
         <canvas id="chart"></canvas>
+        <div id="cgpa_res">CGPA</div>
         <div id="result"></div>
     </div>
     
@@ -175,7 +201,7 @@
             }
 
             var cgpa = (numerator / denominator).toFixed(2);
-            document.getElementById("result").innerHTML = "Your CGPA is: " + cgpa;
+            document.getElementById("result").innerHTML = cgpa;
         
             updateChart(Array.from(gpas).map(input => parseFloat(input.value)));    
         });
